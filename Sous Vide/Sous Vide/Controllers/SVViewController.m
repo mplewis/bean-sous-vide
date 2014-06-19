@@ -7,7 +7,6 @@
 //
 
 #import "SVViewController.h"
-#import <PTDBeanManager.h>
 
 @interface SVViewController ()
 

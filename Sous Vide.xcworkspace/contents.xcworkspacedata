@@ -2,9 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Bean-iOS-OSX-SDK/Bean OSX Static Library/Bean OSX Library.xcodeproj">
+      location = "group:Sous Vide/Sous Vide.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Sous Vide/Sous Vide.xcodeproj">
+      location = "group:Bean-iOS-OSX-SDK/Bean OSX Static Library/Bean OSX Library.xcodeproj">
    </FileRef>
 </Workspace>
