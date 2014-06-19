@@ -1,0 +1,494 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		368606CC19537A9900FC4A64 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368606CB19537A9900FC4A64 /* Foundation.framework */; };
+		368606CE19537A9900FC4A64 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368606CD19537A9900FC4A64 /* CoreGraphics.framework */; };
+		368606D019537A9900FC4A64 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368606CF19537A9900FC4A64 /* UIKit.framework */; };
+		368606D619537A9900FC4A64 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 368606D419537A9900FC4A64 /* InfoPlist.strings */; };
+		368606D819537A9900FC4A64 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 368606D719537A9900FC4A64 /* main.m */; };
+		368606DC19537A9900FC4A64 /* SVAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 368606DB19537A9900FC4A64 /* SVAppDelegate.m */; };
+		368606DF19537A9900FC4A64 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 368606DD19537A9900FC4A64 /* Main.storyboard */; };
+		368606E219537A9900FC4A64 /* SVViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 368606E119537A9900FC4A64 /* SVViewController.m */; };
+		368606E419537A9900FC4A64 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 368606E319537A9900FC4A64 /* Images.xcassets */; };
+		368606EB19537A9900FC4A64 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368606EA19537A9900FC4A64 /* XCTest.framework */; };
+		368606EC19537A9900FC4A64 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368606CB19537A9900FC4A64 /* Foundation.framework */; };
+		368606ED19537A9900FC4A64 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368606CF19537A9900FC4A64 /* UIKit.framework */; };
+		368606F519537A9900FC4A64 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 368606F319537A9900FC4A64 /* InfoPlist.strings */; };
+		368606F719537A9900FC4A64 /* Sous_VideTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 368606F619537A9900FC4A64 /* Sous_VideTests.m */; };
+		3686070119537ADC00FC4A64 /* libBean iOS Library.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3686070019537ADC00FC4A64 /* libBean iOS Library.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		368606EE19537A9900FC4A64 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 368606C019537A9900FC4A64 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 368606C719537A9900FC4A64;
+			remoteInfo = "Sous Vide";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		368606C819537A9900FC4A64 /* Sous Vide.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sous Vide.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		368606CB19537A9900FC4A64 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		368606CD19537A9900FC4A64 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		368606CF19537A9900FC4A64 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		368606D319537A9900FC4A64 /* Sous Vide-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sous Vide-Info.plist"; sourceTree = "<group>"; };
+		368606D519537A9900FC4A64 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		368606D719537A9900FC4A64 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		368606D919537A9900FC4A64 /* Sous Vide-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Sous Vide-Prefix.pch"; sourceTree = "<group>"; };
+		368606DA19537A9900FC4A64 /* SVAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVAppDelegate.h; sourceTree = "<group>"; };
+		368606DB19537A9900FC4A64 /* SVAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SVAppDelegate.m; sourceTree = "<group>"; };
+		368606DE19537A9900FC4A64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		368606E019537A9900FC4A64 /* SVViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVViewController.h; sourceTree = "<group>"; };
+		368606E119537A9900FC4A64 /* SVViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SVViewController.m; sourceTree = "<group>"; };
+		368606E319537A9900FC4A64 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		368606E919537A9900FC4A64 /* Sous VideTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sous VideTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		368606EA19537A9900FC4A64 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		368606F219537A9900FC4A64 /* Sous VideTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sous VideTests-Info.plist"; sourceTree = "<group>"; };
+		368606F419537A9900FC4A64 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		368606F619537A9900FC4A64 /* Sous_VideTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Sous_VideTests.m; sourceTree = "<group>"; };
+		3686070019537ADC00FC4A64 /* libBean iOS Library.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libBean iOS Library.a"; path = "../../../../../Library/Developer/Xcode/DerivedData/Sous_Vide-cwowgeqvqcfvnjffdiartlwcqxls/Build/Products/Debug/libBean iOS Library.a"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		368606C519537A9900FC4A64 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3686070119537ADC00FC4A64 /* libBean iOS Library.a in Frameworks */,
+				368606CE19537A9900FC4A64 /* CoreGraphics.framework in Frameworks */,
+				368606D019537A9900FC4A64 /* UIKit.framework in Frameworks */,
+				368606CC19537A9900FC4A64 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		368606E619537A9900FC4A64 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				368606EB19537A9900FC4A64 /* XCTest.framework in Frameworks */,
+				368606ED19537A9900FC4A64 /* UIKit.framework in Frameworks */,
+				368606EC19537A9900FC4A64 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		368606BF19537A9900FC4A64 = {
+			isa = PBXGroup;
+			children = (
+				368606D119537A9900FC4A64 /* Sous Vide */,
+				368606F019537A9900FC4A64 /* Sous VideTests */,
+				368606CA19537A9900FC4A64 /* Frameworks */,
+				368606C919537A9900FC4A64 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		368606C919537A9900FC4A64 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				368606C819537A9900FC4A64 /* Sous Vide.app */,
+				368606E919537A9900FC4A64 /* Sous VideTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		368606CA19537A9900FC4A64 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3686070019537ADC00FC4A64 /* libBean iOS Library.a */,
+				368606CB19537A9900FC4A64 /* Foundation.framework */,
+				368606CD19537A9900FC4A64 /* CoreGraphics.framework */,
+				368606CF19537A9900FC4A64 /* UIKit.framework */,
+				368606EA19537A9900FC4A64 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		368606D119537A9900FC4A64 /* Sous Vide */ = {
+			isa = PBXGroup;
+			children = (
+				368606DA19537A9900FC4A64 /* SVAppDelegate.h */,
+				368606DB19537A9900FC4A64 /* SVAppDelegate.m */,
+				368606DD19537A9900FC4A64 /* Main.storyboard */,
+				368606E019537A9900FC4A64 /* SVViewController.h */,
+				368606E119537A9900FC4A64 /* SVViewController.m */,
+				368606E319537A9900FC4A64 /* Images.xcassets */,
+				368606D219537A9900FC4A64 /* Supporting Files */,
+			);
+			path = "Sous Vide";
+			sourceTree = "<group>";
+		};
+		368606D219537A9900FC4A64 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				368606D319537A9900FC4A64 /* Sous Vide-Info.plist */,
+				368606D419537A9900FC4A64 /* InfoPlist.strings */,
+				368606D719537A9900FC4A64 /* main.m */,
+				368606D919537A9900FC4A64 /* Sous Vide-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		368606F019537A9900FC4A64 /* Sous VideTests */ = {
+			isa = PBXGroup;
+			children = (
+				368606F619537A9900FC4A64 /* Sous_VideTests.m */,
+				368606F119537A9900FC4A64 /* Supporting Files */,
+			);
+			path = "Sous VideTests";
+			sourceTree = "<group>";
+		};
+		368606F119537A9900FC4A64 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				368606F219537A9900FC4A64 /* Sous VideTests-Info.plist */,
+				368606F319537A9900FC4A64 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		368606C719537A9900FC4A64 /* Sous Vide */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 368606FA19537A9900FC4A64 /* Build configuration list for PBXNativeTarget "Sous Vide" */;
+			buildPhases = (
+				368606C419537A9900FC4A64 /* Sources */,
+				368606C519537A9900FC4A64 /* Frameworks */,
+				368606C619537A9900FC4A64 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Sous Vide";
+			productName = "Sous Vide";
+			productReference = 368606C819537A9900FC4A64 /* Sous Vide.app */;
+			productType = "com.apple.product-type.application";
+		};
+		368606E819537A9900FC4A64 /* Sous VideTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 368606FD19537A9900FC4A64 /* Build configuration list for PBXNativeTarget "Sous VideTests" */;
+			buildPhases = (
+				368606E519537A9900FC4A64 /* Sources */,
+				368606E619537A9900FC4A64 /* Frameworks */,
+				368606E719537A9900FC4A64 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				368606EF19537A9900FC4A64 /* PBXTargetDependency */,
+			);
+			name = "Sous VideTests";
+			productName = "Sous VideTests";
+			productReference = 368606E919537A9900FC4A64 /* Sous VideTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		368606C019537A9900FC4A64 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = SV;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "Kestrel Development";
+				TargetAttributes = {
+					368606E819537A9900FC4A64 = {
+						TestTargetID = 368606C719537A9900FC4A64;
+					};
+				};
+			};
+			buildConfigurationList = 368606C319537A9900FC4A64 /* Build configuration list for PBXProject "Sous Vide" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 368606BF19537A9900FC4A64;
+			productRefGroup = 368606C919537A9900FC4A64 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				368606C719537A9900FC4A64 /* Sous Vide */,
+				368606E819537A9900FC4A64 /* Sous VideTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		368606C619537A9900FC4A64 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				368606E419537A9900FC4A64 /* Images.xcassets in Resources */,
+				368606D619537A9900FC4A64 /* InfoPlist.strings in Resources */,
+				368606DF19537A9900FC4A64 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		368606E719537A9900FC4A64 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				368606F519537A9900FC4A64 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		368606C419537A9900FC4A64 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				368606E219537A9900FC4A64 /* SVViewController.m in Sources */,
+				368606D819537A9900FC4A64 /* main.m in Sources */,
+				368606DC19537A9900FC4A64 /* SVAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		368606E519537A9900FC4A64 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				368606F719537A9900FC4A64 /* Sous_VideTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		368606EF19537A9900FC4A64 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 368606C719537A9900FC4A64 /* Sous Vide */;
+			targetProxy = 368606EE19537A9900FC4A64 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		368606D419537A9900FC4A64 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				368606D519537A9900FC4A64 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		368606DD19537A9900FC4A64 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				368606DE19537A9900FC4A64 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		368606F319537A9900FC4A64 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				368606F419537A9900FC4A64 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		368606F819537A9900FC4A64 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		368606F919537A9900FC4A64 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		368606FB19537A9900FC4A64 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Sous Vide/Sous Vide-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../Bean-iOS-OSX-SDK/source/Public",
+				);
+				INFOPLIST_FILE = "Sous Vide/Sous Vide-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Sous_Vide-cwowgeqvqcfvnjffdiartlwcqxls/Build/Products/Debug",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		368606FC19537A9900FC4A64 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Sous Vide/Sous Vide-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../Bean-iOS-OSX-SDK/source/Public",
+				);
+				INFOPLIST_FILE = "Sous Vide/Sous Vide-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Sous_Vide-cwowgeqvqcfvnjffdiartlwcqxls/Build/Products/Debug",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		368606FE19537A9900FC4A64 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Sous Vide.app/Sous Vide";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Sous Vide/Sous Vide-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Sous VideTests/Sous VideTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		368606FF19537A9900FC4A64 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Sous Vide.app/Sous Vide";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Sous Vide/Sous Vide-Prefix.pch";
+				INFOPLIST_FILE = "Sous VideTests/Sous VideTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		368606C319537A9900FC4A64 /* Build configuration list for PBXProject "Sous Vide" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				368606F819537A9900FC4A64 /* Debug */,
+				368606F919537A9900FC4A64 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		368606FA19537A9900FC4A64 /* Build configuration list for PBXNativeTarget "Sous Vide" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				368606FB19537A9900FC4A64 /* Debug */,
+				368606FC19537A9900FC4A64 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		368606FD19537A9900FC4A64 /* Build configuration list for PBXNativeTarget "Sous VideTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				368606FE19537A9900FC4A64 /* Debug */,
+				368606FF19537A9900FC4A64 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 368606C019537A9900FC4A64 /* Project object */;
+}
