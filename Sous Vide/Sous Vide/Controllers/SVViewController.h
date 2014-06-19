@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *cookingLabel;
 @property (weak, nonatomic) IBOutlet UIStepper *targetTempButtons;
 @property (weak, nonatomic) IBOutlet UISwitch *cookingSwitch;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *beanStatusSpinner;
 
 
 @end
