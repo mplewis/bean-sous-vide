@@ -13,7 +13,10 @@
 #define BT_STATUS_TEXT @"Bluetooth: %@"
 #define BEAN_STATUS_TEXT @"Bean: %@"
 
-#define SOUS_VIDE_BEAN_NAME @"Sous Vide"
+#define ALPHA_FADED 0.3
+#define ALPHA_OPAQUE 1.0
+
+#define SOUS_VIDE_BEAN_UUID @"1A8924DF-F488-7A1E-C63E-AED9CCF7D80C"
 
 #import "SVViewController.h"
 
@@ -31,7 +34,11 @@
 {
     [super viewDidLoad];
     
+    // Set up BeanManager
     self.beanManager = [[PTDBeanManager alloc] initWithDelegate:self];
+
+    // Make sure controls start faded
+    [self disableControls];
 }
 
 - (void)beanManagerDidUpdateState:(PTDBeanManager *)beanManager
@@ -51,10 +58,6 @@
     if (self.beanManager.state == BeanManagerState_PoweredOn) {
         // If Bluetooth is on, start scanning for beans.
         [self.beanManager startScanningForBeans_error:nil];
-        [self.beanStatusLabel setText:[NSString stringWithFormat:BEAN_STATUS_TEXT, @"Scanning..."]];
-        [self.beanStatusSpinner startAnimating];
-        self.beanStatusIcon.hidden = YES;
-        self.rescanButton.hidden = YES;
     } else {
         // When we turn Bluetooth off, clear the scanned Beans.
         [self.beans removeAllObjects];
@@ -63,7 +66,7 @@
         [self.beanStatusSpinner stopAnimating];
         [self.beanStatusIcon setImage:[UIImage imageNamed:ICON_X]];
         self.beanStatusIcon.hidden = NO;
-        self.rescanButton.hidden = YES;
+        [self disableControls];
     }
 }
 
@@ -72,10 +75,12 @@
     NSUUID *key = bean.identifier;
     if (![self.beans objectForKey:key]) {
         [self.beans setObject:bean forKey:key];
-        NSLog(@"New Bean discovered: %@", bean.name);
-        if ([bean.name isEqualToString:SOUS_VIDE_BEAN_NAME]) {
+        NSLog(@"New Bean discovered: %@ (%@)", bean.name, [key UUIDString]);
+        if ([[key UUIDString] isEqualToString:SOUS_VIDE_BEAN_UUID]) {
             [self.beanManager connectToBean:bean error:nil];
             [self.beanStatusLabel setText:[NSString stringWithFormat:BEAN_STATUS_TEXT, @"Connecting..."]];
+            [self.beanStatusSpinner startAnimating];
+            self.beanStatusIcon.hidden = YES;
         }
     }
 }
@@ -86,16 +91,52 @@
     [self.beanStatusSpinner stopAnimating];
     [self.beanStatusIcon setImage:[UIImage imageNamed:ICON_CHECK]];
     self.beanStatusIcon.hidden = NO;
-    self.rescanButton.hidden = YES;
+
+    // Enable controls
+    [self enableControls];
 }
 
 - (void)BeanManager:(PTDBeanManager *)beanManager didDisconnectBean:(PTDBean *)bean error:(NSError *)error
 {
-    [self.beanStatusLabel setText:[NSString stringWithFormat:BEAN_STATUS_TEXT, @"Disconnected"]];
-    [self.beanStatusSpinner stopAnimating];
-    [self.beanStatusIcon setImage:[UIImage imageNamed:ICON_X]];
-    self.beanStatusIcon.hidden = NO;
-    self.rescanButton.hidden = NO;
+    // Disable controls
+    [self disableControls];
+    
+    // If Bluetooth is ready, start scanning again right away
+    if (self.beanManager.state == BeanManagerState_PoweredOn) {
+        [self startScanning];
+    }
+}
+
+- (void)startScanning
+{
+    [self.beanManager startScanningForBeans_error:nil];
+    [self.beanStatusLabel setText:[NSString stringWithFormat:BEAN_STATUS_TEXT, @"Scanning..."]];
+    [self.beanStatusSpinner startAnimating];
+    self.beanStatusIcon.hidden = YES;
+}
+
+- (void)disableControls
+{
+    self.heatingIcon.alpha = ALPHA_FADED;
+    self.tempLabel.alpha = ALPHA_FADED;
+    self.heatingLabel.alpha = ALPHA_FADED;
+    self.targetTempLabel.alpha = ALPHA_FADED;
+    self.cookingLabel.alpha = ALPHA_FADED;
+    [self.targetTempButtons setEnabled:NO];
+    self.targetTempButtons.alpha = ALPHA_FADED;
+    [self.cookingSwitch setEnabled:NO];
+}
+
+- (void)enableControls
+{
+    self.heatingIcon.alpha = ALPHA_OPAQUE;
+    self.tempLabel.alpha = ALPHA_OPAQUE;
+    self.heatingLabel.alpha = ALPHA_OPAQUE;
+    self.targetTempLabel.alpha = ALPHA_OPAQUE;
+    self.cookingLabel.alpha = ALPHA_OPAQUE;
+    [self.targetTempButtons setEnabled:YES];
+    self.targetTempButtons.alpha = ALPHA_OPAQUE;
+    [self.cookingSwitch setEnabled:YES];
 }
 
 - (void)didReceiveMemoryWarning

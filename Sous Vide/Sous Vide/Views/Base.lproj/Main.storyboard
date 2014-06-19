@@ -59,11 +59,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i2T-hK-n1l">
-                                <rect key="frame" x="251" y="517" width="51" height="31"/>
+                                <rect key="frame" x="251" y="397" width="51" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </switch>
                             <stepper opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="LYe-tQ-7cf">
-                                <rect key="frame" x="20" y="519" width="94" height="29"/>
+                                <rect key="frame" x="20" y="398" width="94" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </stepper>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Target Temperature" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yCf-yg-ZGs">
@@ -88,13 +88,6 @@
                                 <rect key="frame" x="22" y="76" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dnT-GY-Umz">
-                                <rect key="frame" x="242" y="71" width="58" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Rescan">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -108,7 +101,6 @@
                         <outlet property="cookingSwitch" destination="i2T-hK-n1l" id="Scl-Ir-c18"/>
                         <outlet property="heatingIcon" destination="Ee9-Gw-Wju" id="UgH-Dh-FFT"/>
                         <outlet property="heatingLabel" destination="fZG-Rr-4vY" id="7rp-gN-Cvx"/>
-                        <outlet property="rescanButton" destination="dnT-GY-Umz" id="BhI-Ts-ugD"/>
                         <outlet property="targetTempButtons" destination="LYe-tQ-7cf" id="8oc-9b-91M"/>
                         <outlet property="targetTempLabel" destination="xvw-xa-m9W" id="3iY-D8-mux"/>
                         <outlet property="tempLabel" destination="cwg-mr-Gbk" id="qa6-M7-eBi"/>
