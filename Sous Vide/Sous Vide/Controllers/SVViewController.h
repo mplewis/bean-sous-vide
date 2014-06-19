@@ -23,6 +23,6 @@
 @property (weak, nonatomic) IBOutlet UIStepper *targetTempButtons;
 @property (weak, nonatomic) IBOutlet UISwitch *cookingSwitch;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *beanStatusSpinner;
-
+@property (weak, nonatomic) IBOutlet UIButton *rescanButton;
 
 @end

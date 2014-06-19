@@ -48,18 +48,22 @@
         [self.btStatusLabel setText:[NSString stringWithFormat:BT_STATUS_TEXT, @"Unknown"]];
     }
     
-    // If Bluetooth is on, start scanning for beans.
     if (self.beanManager.state == BeanManagerState_PoweredOn) {
+        // If Bluetooth is on, start scanning for beans.
         [self.beanManager startScanningForBeans_error:nil];
         [self.beanStatusLabel setText:[NSString stringWithFormat:BEAN_STATUS_TEXT, @"Scanning..."]];
         [self.beanStatusSpinner startAnimating];
         self.beanStatusIcon.hidden = YES;
+        self.rescanButton.hidden = YES;
     } else {
+        // When we turn Bluetooth off, clear the scanned Beans.
+        [self.beans removeAllObjects];
         [self.beanManager stopScanningForBeans_error:nil];
         [self.beanStatusLabel setText:[NSString stringWithFormat:BEAN_STATUS_TEXT, @"Disconnected"]];
         [self.beanStatusSpinner stopAnimating];
         [self.beanStatusIcon setImage:[UIImage imageNamed:ICON_X]];
         self.beanStatusIcon.hidden = NO;
+        self.rescanButton.hidden = YES;
     }
 }
 
@@ -67,19 +71,31 @@
 {
     NSUUID *key = bean.identifier;
     if (![self.beans objectForKey:key]) {
-        NSLog(@"New Bean discovered: %@", bean.name);
         [self.beans setObject:bean forKey:key];
+        NSLog(@"New Bean discovered: %@", bean.name);
+        if ([bean.name isEqualToString:SOUS_VIDE_BEAN_NAME]) {
+            [self.beanManager connectToBean:bean error:nil];
+            [self.beanStatusLabel setText:[NSString stringWithFormat:BEAN_STATUS_TEXT, @"Connecting..."]];
+        }
     }
 }
 
 - (void)BeanManager:(PTDBeanManager *)beanManager didConnectToBean:(PTDBean *)bean error:(NSError *)error
 {
-    
+    [self.beanStatusLabel setText:[NSString stringWithFormat:BEAN_STATUS_TEXT, @"Connected"]];
+    [self.beanStatusSpinner stopAnimating];
+    [self.beanStatusIcon setImage:[UIImage imageNamed:ICON_CHECK]];
+    self.beanStatusIcon.hidden = NO;
+    self.rescanButton.hidden = YES;
 }
 
 - (void)BeanManager:(PTDBeanManager *)beanManager didDisconnectBean:(PTDBean *)bean error:(NSError *)error
 {
-    
+    [self.beanStatusLabel setText:[NSString stringWithFormat:BEAN_STATUS_TEXT, @"Disconnected"]];
+    [self.beanStatusSpinner stopAnimating];
+    [self.beanStatusIcon setImage:[UIImage imageNamed:ICON_X]];
+    self.beanStatusIcon.hidden = NO;
+    self.rescanButton.hidden = NO;
 }
 
 - (void)didReceiveMemoryWarning
