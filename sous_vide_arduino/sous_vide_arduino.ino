@@ -48,10 +48,11 @@ void loop()
         // Send the command to get temperatures
         sensors.requestTemperatures();
 
-        // Return 0x00, current temp, target temp, 0xFF
+        // Return 0x00, current temp, target temp, enabled, 0xFF
         Serial.write(0x00);
         Serial.write((int)temperature());
         Serial.write(targetTempF);
+        Serial.write(enabled ? 0x01 : 0x00);
         Serial.write(0xFF);
 
     } else if (cmd == 0x01) {

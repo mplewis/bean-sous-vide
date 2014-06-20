@@ -28,6 +28,24 @@
 #define CMD_DISABLE 0x02
 #define CMD_SETTARGET 0x03
 
+// ST_: State machine states for parsing Bean messages
+
+// Waiting for message type byte
+#define ST_READY 0x00
+
+// Got message type STATUS (0x00); waiting for current temp
+#define ST_STATUS_CURRENT_TEMP 0x01
+// Got current temp; waiting for target temp
+#define ST_STATUS_TARGET_TEMP 0x02
+// Got target temp; waiting for ENABLED byte
+#define ST_STATUS_ENABLED 0x03
+
+// Got message type TARGET_TEMP (0x03); waiting for target temp
+#define ST_TARGET_TEMP 0x04
+
+// Got expected message bytes; waiting for terminator (0xFF)
+#define ST_DONE 0xFF
+
 #import "SVViewController.h"
 
 @interface SVViewController () <PTDBeanManagerDelegate, PTDBeanDelegate>
