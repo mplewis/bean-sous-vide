@@ -58,6 +58,9 @@
     if (self.beanManager.state == BeanManagerState_PoweredOn) {
         // If Bluetooth is on, start scanning for beans.
         [self.beanManager startScanningForBeans_error:nil];
+        [self.beanStatusLabel setText:[NSString stringWithFormat:BEAN_STATUS_TEXT, @"Scanning..."]];
+        [self.beanStatusSpinner startAnimating];
+        self.beanStatusIcon.hidden = YES;
     } else {
         // When we turn Bluetooth off, clear the scanned Beans.
         [self.beans removeAllObjects];
