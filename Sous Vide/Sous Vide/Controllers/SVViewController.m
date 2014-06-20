@@ -16,7 +16,7 @@
 #define ALPHA_FADED 0.3
 #define ALPHA_OPAQUE 1.0
 
-#define SOUS_VIDE_BEAN_UUID @"1A8924DF-F488-7A1E-C63E-AED9CCF7D80C"
+#define SOUS_VIDE_BEAN_NAME @"SousVide"
 
 #import "SVViewController.h"
 
@@ -79,7 +79,7 @@
     if (![self.beans objectForKey:key]) {
         [self.beans setObject:bean forKey:key];
         NSLog(@"New Bean discovered: %@ (%@)", bean.name, [key UUIDString]);
-        if ([[key UUIDString] isEqualToString:SOUS_VIDE_BEAN_UUID]) {
+        if ([bean.name isEqualToString:SOUS_VIDE_BEAN_NAME]) {
             [self.beanManager connectToBean:bean error:nil];
             [self.beanStatusLabel setText:[NSString stringWithFormat:BEAN_STATUS_TEXT, @"Connecting..."]];
             [self.beanStatusSpinner startAnimating];
