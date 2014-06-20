@@ -78,7 +78,12 @@
         [self.beanStatusSpinner stopAnimating];
         [self.beanStatusIcon setImage:[UIImage imageNamed:ICON_X]];
         self.beanStatusIcon.hidden = NO;
+
+        // Dim the on-screen controls
         [self disableControls];
+        
+        // Stop sending update requests
+        [self stopUpdateRequests];
     }
 }
 
