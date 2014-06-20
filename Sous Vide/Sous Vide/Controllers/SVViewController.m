@@ -56,6 +56,14 @@
 @property PTDBean *sousVideBean;
 @property NSTimer *updateTimer;
 
+// For parsing serial messages
+
+@property unsigned char msgType;
+@property unsigned char msgCurrentState;
+@property unsigned char msgCurrentTemp;
+@property unsigned char msgTargetTemp;
+@property BOOL msgEnabled;
+
 @end
 
 @implementation SVViewController
@@ -66,9 +74,9 @@
     
     // Set up BeanManager
     self.beanManager = [[PTDBeanManager alloc] initWithDelegate:self];
-
-    // Make sure controls start faded
-    [self disableControls];
+    
+    // Clear program state
+    [self reset];
 }
 
 - (void)beanManagerDidUpdateState:(PTDBeanManager *)beanManager
@@ -89,7 +97,7 @@
         // When we turn Bluetooth off, stop scanning.
         [self stopScanning];
         // When the Bean disconnects, clean up
-        [self connectionLost];
+        [self reset];
     }
 }
 
@@ -130,7 +138,7 @@
 - (void)BeanManager:(PTDBeanManager *)beanManager didDisconnectBean:(PTDBean *)bean error:(NSError *)error
 {
     // When the Bean disconnects, clean up
-    [self connectionLost];
+    [self reset];
     
     // If Bluetooth is ready, start scanning again right away
     if (self.beanManager.state == BeanManagerState_PoweredOn) {
@@ -140,8 +148,64 @@
 
 - (void)bean:(PTDBean *)bean serialDataReceived:(NSData *)data
 {
+    const char *dataBytes = (const char *)[data bytes];
+    unsigned char dataByte = dataBytes[0];
+    NSLog(@"Pre-state: %i", self.msgCurrentState);
     NSLog(@"Data received: %@", data);
-    [self enableControlsWithTemp:77 targetTemp:100 isEnabled:YES isHeating:YES];
+
+    if (self.msgCurrentState == ST_READY) {
+        // Read message type and set next state accordingly
+        self.msgType = dataByte;
+
+        if (self.msgType == MSG_STATUS) {
+            self.msgCurrentState = ST_STATUS_CURRENT_TEMP;
+            
+        } else if (self.msgType == MSG_ENABLE) {
+            self.msgCurrentState = ST_DONE;
+        
+        } else if (self.msgType == MSG_DISABLE) {
+            self.msgCurrentState = ST_DONE;
+        
+        } else if (self.msgType == MSG_SET_TARGET_TEMP) {
+            self.msgCurrentState = ST_SET_TARGET_TEMP;
+        
+        } // Ignore all other messages
+
+    } else if (self.msgCurrentState == ST_STATUS_CURRENT_TEMP) {
+        self.msgCurrentTemp = dataByte;
+        self.msgCurrentState = ST_STATUS_TARGET_TEMP;
+        
+    } else if (self.msgCurrentState == ST_STATUS_TARGET_TEMP) {
+        self.msgTargetTemp = dataByte;
+        self.msgCurrentState = ST_STATUS_ENABLED;
+        
+    } else if (self.msgCurrentState == ST_STATUS_ENABLED) {
+        self.msgEnabled = dataByte;
+        self.msgCurrentState = ST_DONE;
+        
+    } else if (self.msgCurrentState == ST_SET_TARGET_TEMP) {
+        self.msgTargetTemp = dataByte;
+        self.msgCurrentState = ST_DONE;
+        
+    } else if (self.msgCurrentState == ST_DONE && dataByte == 0xFF) {
+        // State machine was waiting for terminator and received it.
+        if (self.msgType == MSG_STATUS) {
+            [self enableControlsWithTemp:self.msgCurrentTemp
+                              targetTemp:self.msgTargetTemp
+                               isEnabled:self.msgEnabled
+                               isHeating:NO];
+        } else if (self.msgType == MSG_ENABLE) {
+            [self showEnabled:YES];
+        } else if (self.msgType == MSG_DISABLE) {
+            [self showEnabled:NO];
+        } else if (self.msgType == MSG_SET_TARGET_TEMP) {
+            [self showTargetTemp:self.msgTargetTemp];
+        }
+        self.msgCurrentState = ST_READY;
+    }
+    
+    NSLog(@"Post-state: %i", self.msgCurrentState);
+    NSLog(@"msgCurrentState: %i, msgType: %i, dataByte: %i", self.msgCurrentState, self.msgType, dataByte);
 }
 
 - (void)setBtStatus:(NSString *)statusText withIcon:(NSString *)iconName
@@ -238,7 +302,7 @@
     [self.cookingLabel setText:@"?"];
 }
 
-- (void)connectionLost
+- (void)reset
 {
     // Run this when the Bean disconnects or Bluetooth chokes.
     
@@ -250,6 +314,9 @@
     
     // Throw away the connected Bean
     self.sousVideBean = nil;
+
+    // Reset the state machine
+    self.msgCurrentState = ST_READY;
 }
 
 - (void)requestUpdate
@@ -283,7 +350,9 @@
 
 - (void)stopUpdateRequests
 {
-    [self.updateTimer invalidate];
+    if (self.updateTimer) {
+        [self.updateTimer invalidate];
+    }
     self.updateTimer = nil;
 }
 
