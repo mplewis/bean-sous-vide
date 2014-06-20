@@ -6,6 +6,10 @@
 //  Copyright (c) 2014 Kestrel Development. All rights reserved.
 //
 
+#define SOUS_VIDE_BEAN_NAME @"SousVide"
+
+#define UPDATE_INTERVAL_SECS 5.0
+
 #define ICON_CHECK @"checkmark.png"
 #define ICON_X @"cancel.png"
 #define ICON_QUESTION @"help.png"
@@ -17,7 +21,10 @@
 #define ALPHA_FADED 0.3
 #define ALPHA_OPAQUE 1.0
 
-#define SOUS_VIDE_BEAN_NAME @"SousVide"
+#define CMD_STATUS 0x00
+#define CMD_ENABLE 0x01
+#define CMD_DISABLE 0x02
+#define CMD_SETTARGET 0x03
 
 #import "SVViewController.h"
 
@@ -26,6 +33,7 @@
 @property PTDBeanManager *beanManager;
 @property NSMutableDictionary *beans;
 @property PTDBean *sousVideBean;
+@property NSTimer *updateTimer;
 
 @end
 
@@ -98,6 +106,12 @@
 
     // Enable controls
     [self enableControls];
+    
+    // Keep track of the connected Bean
+    self.sousVideBean = bean;
+    
+    // Start sending update packets
+    [self startUpdateRequests];
 }
 
 - (void)BeanManager:(PTDBeanManager *)beanManager didDisconnectBean:(PTDBean *)bean error:(NSError *)error
@@ -105,10 +119,21 @@
     // Disable controls
     [self disableControls];
     
+    // Stop sending update requests
+    [self stopUpdateRequests];
+    
+    // Throw away the connected Bean
+    self.sousVideBean = nil;
+    
     // If Bluetooth is ready, start scanning again right away
     if (self.beanManager.state == BeanManagerState_PoweredOn) {
         [self startScanning];
     }
+}
+
+- (void)bean:(PTDBean *)bean serialDataReceived:(NSData *)data
+{
+    NSLog(@"Data received: %@", data);
 }
 
 - (void)startScanning
@@ -147,6 +172,32 @@
     [self.targetTempButtons setEnabled:YES];
     self.targetTempButtons.alpha = ALPHA_OPAQUE;
     [self.cookingSwitch setEnabled:YES];
+}
+
+- (void)requestUpdate
+{
+    NSMutableData *data = [[NSMutableData alloc] init];
+    [data appendBytes:(char[]){CMD_STATUS} length:1];
+    [self.sousVideBean sendSerialData:data];
+}
+
+- (void)startUpdateRequests
+{
+    // Schedule update requests to run every 5 seconds
+    self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:UPDATE_INTERVAL_SECS
+                                                        target:self
+                                                      selector:@selector(requestUpdate)
+                                                      userInfo:nil
+                                                       repeats:YES];
+
+    // Send an update request immediately
+    [self requestUpdate];
+}
+
+- (void)stopUpdateRequests
+{
+    [self.updateTimer invalidate];
+    self.updateTimer = nil;
 }
 
 - (void)didReceiveMemoryWarning
