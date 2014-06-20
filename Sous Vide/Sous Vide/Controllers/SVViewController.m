@@ -28,23 +28,24 @@
 #define CMD_DISABLE 0x02
 #define CMD_SETTARGET 0x03
 
+// MSG_: Bytes indicating message types for Bean messages
+
+#define MSG_STATUS 0x00
+#define MSG_ENABLE 0x01
+#define MSG_DISABLE 0x02
+#define MSG_SET_TARGET_TEMP 0x03
+
 // ST_: State machine states for parsing Bean messages
 
-// Waiting for message type byte
-#define ST_READY 0x00
+#define ST_READY 0x00 // Waiting for message type byte
 
-// Got message type STATUS (0x00); waiting for current temp
-#define ST_STATUS_CURRENT_TEMP 0x01
-// Got current temp; waiting for target temp
-#define ST_STATUS_TARGET_TEMP 0x02
-// Got target temp; waiting for ENABLED byte
-#define ST_STATUS_ENABLED 0x03
+#define ST_STATUS_CURRENT_TEMP 0x01 // Got message type STATUS (0x00); waiting for current temp
+#define ST_STATUS_TARGET_TEMP 0x02 // Got current temp; waiting for target temp
+#define ST_STATUS_ENABLED 0x03 // Got target temp; waiting for ENABLED byte
 
-// Got message type TARGET_TEMP (0x03); waiting for target temp
-#define ST_TARGET_TEMP 0x04
+#define ST_SET_TARGET_TEMP 0x04 // Got message type SET_TARGET_TEMP (0x03); waiting for target temp
 
-// Got expected message bytes; waiting for terminator (0xFF)
-#define ST_DONE 0xFF
+#define ST_DONE 0xFF // Got expected message bytes; waiting for terminator (0xFF)
 
 #import "SVViewController.h"
 
