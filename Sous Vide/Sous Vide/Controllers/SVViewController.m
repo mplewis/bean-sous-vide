@@ -159,22 +159,26 @@
     [self.beanManager stopScanningForBeans_error:nil];
 }
 
-- (void)disableControls
+- (void)showTemp:(int)temp
 {
-    self.heatingIcon.alpha = ALPHA_FADED;
-    self.tempLabel.alpha = ALPHA_FADED;
-    self.heatingLabel.alpha = ALPHA_FADED;
-    self.targetTempLabel.alpha = ALPHA_FADED;
-    self.cookingLabel.alpha = ALPHA_FADED;
-    [self.targetTempButtons setEnabled:NO];
-    self.targetTempButtons.alpha = ALPHA_FADED;
-    [self.cookingSwitch setEnabled:NO];
-    
-    [self.heatingIcon setImage:[UIImage imageNamed:ICON_QUESTION_LG]];
-    [self.tempLabel setText:@"?° F"];
-    [self.heatingLabel setText:@"Unknown"];
-    [self.targetTempLabel setText:@"?° F"];
-    [self.cookingLabel setText:@"?"];
+    [self.tempLabel setText:[NSString stringWithFormat:@"%i° F", temp]];
+}
+
+- (void)showTargetTemp:(int)targetTemp
+{
+    [self.targetTempLabel setText:[NSString stringWithFormat:@"%i° F", targetTemp]];
+}
+
+- (void)showEnabled:(BOOL)enabled
+{
+    self.cookingSwitch.on = enabled;
+}
+
+- (void)showHeating:(BOOL)heating
+{
+    NSString *heatingImage = heating ? ICON_HEATING_LG : ICON_COOLING_LG;
+    [self.heatingIcon setImage:[UIImage imageNamed:heatingImage]];
+    [self.heatingLabel setText:heating ? @"Heating" : @"Cooling"];
 }
 
 - (void)enableControlsWithTemp:(int)temp
@@ -191,12 +195,28 @@
     self.targetTempButtons.alpha = ALPHA_OPAQUE;
     [self.cookingSwitch setEnabled:YES];
     
-    [self.tempLabel setText:[NSString stringWithFormat:@"%i° F", temp]];
-    [self.targetTempLabel setText:[NSString stringWithFormat:@"%i° F", targetTemp]];
-    self.cookingSwitch.on = enabled;
-    NSString *heatingImage = heating ? ICON_HEATING_LG : ICON_COOLING_LG;
-    [self.heatingIcon setImage:[UIImage imageNamed:heatingImage]];
-    [self.heatingLabel setText:heating ? @"Heating" : @"Cooling"];
+    [self showTemp:temp];
+    [self showTargetTemp:targetTemp];
+    [self showEnabled:enabled];
+    [self showHeating:heating];
+}
+
+- (void)disableControls
+{
+    self.heatingIcon.alpha = ALPHA_FADED;
+    self.tempLabel.alpha = ALPHA_FADED;
+    self.heatingLabel.alpha = ALPHA_FADED;
+    self.targetTempLabel.alpha = ALPHA_FADED;
+    self.cookingLabel.alpha = ALPHA_FADED;
+    [self.targetTempButtons setEnabled:NO];
+    self.targetTempButtons.alpha = ALPHA_FADED;
+    [self.cookingSwitch setEnabled:NO];
+    
+    [self.heatingIcon setImage:[UIImage imageNamed:ICON_QUESTION_LG]];
+    [self.tempLabel setText:@"?° F"];
+    [self.heatingLabel setText:@"Unknown"];
+    [self.targetTempLabel setText:@"?° F"];
+    [self.cookingLabel setText:@"?"];
 }
 
 - (void)connectionLost
