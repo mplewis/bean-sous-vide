@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		362FC8471953B47A000C6507 /* help_lg@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 362FC8461953B47A000C6507 /* help_lg@2x~iphone.png */; };
+		362FC8491953B47F000C6507 /* help_lg~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 362FC8481953B47F000C6507 /* help_lg~iphone.png */; };
 		368606CC19537A9900FC4A64 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368606CB19537A9900FC4A64 /* Foundation.framework */; };
 		368606CE19537A9900FC4A64 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368606CD19537A9900FC4A64 /* CoreGraphics.framework */; };
 		368606D019537A9900FC4A64 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 368606CF19537A9900FC4A64 /* UIKit.framework */; };
@@ -47,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		362FC8461953B47A000C6507 /* help_lg@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "help_lg@2x~iphone.png"; sourceTree = "<group>"; };
+		362FC8481953B47F000C6507 /* help_lg~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "help_lg~iphone.png"; sourceTree = "<group>"; };
 		368606C819537A9900FC4A64 /* Sous Vide.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sous Vide.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		368606CB19537A9900FC4A64 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		368606CD19537A9900FC4A64 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -226,6 +230,8 @@
 				368607081953814500FC4A64 /* checkmark@2x~iphone.png */,
 				3686070F195381F400FC4A64 /* help~iphone.png */,
 				36860710195381F400FC4A64 /* help@2x~iphone.png */,
+				362FC8481953B47F000C6507 /* help_lg~iphone.png */,
+				362FC8461953B47A000C6507 /* help_lg@2x~iphone.png */,
 				368607131953828700FC4A64 /* temperature~iphone.png */,
 				368607141953828700FC4A64 /* temperature@2x~iphone.png */,
 			);
@@ -311,6 +317,8 @@
 			files = (
 				368607191953876B00FC4A64 /* cool@2x~iphone.png in Resources */,
 				36860712195381F400FC4A64 /* help@2x~iphone.png in Resources */,
+				362FC8471953B47A000C6507 /* help_lg@2x~iphone.png in Resources */,
+				362FC8491953B47F000C6507 /* help_lg~iphone.png in Resources */,
 				368607091953814500FC4A64 /* checkmark~iphone.png in Resources */,
 				3686071D1953878500FC4A64 /* hot@2x~iphone.png in Resources */,
 				368606E419537A9900FC4A64 /* Images.xcassets in Resources */,

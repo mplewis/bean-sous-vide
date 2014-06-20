@@ -9,6 +9,7 @@
 #define ICON_CHECK @"checkmark.png"
 #define ICON_X @"cancel.png"
 #define ICON_QUESTION @"help.png"
+#define ICON_QUESTION_LG @"help_lg.png"
 
 #define BT_STATUS_TEXT @"Bluetooth: %@"
 #define BEAN_STATUS_TEXT @"Bean: %@"
@@ -128,6 +129,12 @@
     [self.targetTempButtons setEnabled:NO];
     self.targetTempButtons.alpha = ALPHA_FADED;
     [self.cookingSwitch setEnabled:NO];
+    
+    [self.heatingIcon setImage:[UIImage imageNamed:ICON_QUESTION_LG]];
+    [self.tempLabel setText:@"?° F"];
+    [self.heatingLabel setText:@"Unknown"];
+    [self.targetTempLabel setText:@"?° F"];
+    [self.cookingLabel setText:@"?"];
 }
 
 - (void)enableControls
