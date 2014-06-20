@@ -21,11 +21,6 @@ void setup()
     sensors.begin();
 }
 
-float temperature()
-{
-    return DallasTemperature::toFahrenheit(sensors.getTempC(thermometer));
-}
-
 void loop()
 {
     // Sleep if there are no incoming commands
