@@ -18,13 +18,7 @@ DeviceAddress thermometer;
 void setup()
 {
     Serial.begin(57600);
-    
     sensors.begin();
-    if (!sensors.getAddress(thermometer, 0)) {
-        Serial.println("Unable to find address for Device 0");
-    }
-
-    sensors.setResolution(thermometer, 9);
 }
 
 float temperature()
@@ -36,7 +30,7 @@ void loop()
 {
     // Sleep if there are no incoming commands
     if (!Serial.available()) {
-        Bean.sleep(20000);
+        Bean.sleep(4294967294);
     }
 
     Bean.setLed(0, 0, 255);
@@ -50,7 +44,7 @@ void loop()
 
         // Return 0x00, current temp, target temp, enabled, 0xFF
         Serial.write(0x00);
-        Serial.write((int)temperature());
+        Serial.write((int) sensors.getTempFByIndex(0));
         Serial.write(targetTempF);
         Serial.write(enabled ? 0x01 : 0x00);
         Serial.write(0xFF);
