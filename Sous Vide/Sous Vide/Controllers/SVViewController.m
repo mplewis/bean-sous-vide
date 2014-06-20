@@ -14,6 +14,8 @@
 #define ICON_X @"cancel.png"
 #define ICON_QUESTION @"help.png"
 #define ICON_QUESTION_LG @"help_lg.png"
+#define ICON_HEATING_LG @"hot.png"
+#define ICON_COOLING_LG @"cool.png"
 
 #define BT_STATUS_TEXT @"Bluetooth: %@"
 #define BEAN_STATUS_TEXT @"Bean: %@"
@@ -54,63 +56,50 @@
 {
     // Set Bluetooth status label and icon for the current Bluetooth state.
     if (self.beanManager.state == BeanManagerState_PoweredOn) {
-        [self.btStatusIcon setImage:[UIImage imageNamed:ICON_CHECK]];
-        [self.btStatusLabel setText:[NSString stringWithFormat:BT_STATUS_TEXT, @"Enabled"]];
+        [self setBtStatus:@"Enabled" withIcon:ICON_CHECK];
     } else if (self.beanManager.state == BeanManagerState_PoweredOff) {
-        [self.btStatusIcon setImage:[UIImage imageNamed:ICON_X]];
-        [self.btStatusLabel setText:[NSString stringWithFormat:BT_STATUS_TEXT, @"Disabled"]];
+        [self setBtStatus:@"Disabled" withIcon:ICON_X];
     } else {
-        [self.btStatusIcon setImage:[UIImage imageNamed:ICON_QUESTION]];
-        [self.btStatusLabel setText:[NSString stringWithFormat:BT_STATUS_TEXT, @"Unknown"]];
+        [self setBtStatus:@"Unknown" withIcon:ICON_QUESTION];
     }
     
     if (self.beanManager.state == BeanManagerState_PoweredOn) {
         // If Bluetooth is on, start scanning for beans.
-        [self.beanManager startScanningForBeans_error:nil];
-        [self.beanStatusLabel setText:[NSString stringWithFormat:BEAN_STATUS_TEXT, @"Scanning..."]];
-        [self.beanStatusSpinner startAnimating];
-        self.beanStatusIcon.hidden = YES;
+        [self startScanning];
     } else {
-        // When we turn Bluetooth off, clear the scanned Beans.
-        [self.beans removeAllObjects];
-        [self.beanManager stopScanningForBeans_error:nil];
-        [self.beanStatusLabel setText:[NSString stringWithFormat:BEAN_STATUS_TEXT, @"Disconnected"]];
-        [self.beanStatusSpinner stopAnimating];
-        [self.beanStatusIcon setImage:[UIImage imageNamed:ICON_X]];
-        self.beanStatusIcon.hidden = NO;
-
-        // Dim the on-screen controls
-        [self disableControls];
-        
-        // Stop sending update requests
-        [self stopUpdateRequests];
+        // When we turn Bluetooth off, stop scanning.
+        [self stopScanning];
+        // When the Bean disconnects, clean up
+        [self connectionLost];
     }
 }
 
 - (void)BeanManager:(PTDBeanManager *)beanManager didDiscoverBean:(PTDBean *)bean error:(NSError *)error
 {
     NSUUID *key = bean.identifier;
+    // Add newly-seen Beans to the dict.
     if (![self.beans objectForKey:key]) {
         [self.beans setObject:bean forKey:key];
         NSLog(@"New Bean discovered: %@ (%@)", bean.name, [key UUIDString]);
         if ([bean.name isEqualToString:SOUS_VIDE_BEAN_NAME]) {
+            // Connect to the Sous Vide Bean.
             [self.beanManager connectToBean:bean error:nil];
-            [self.beanStatusLabel setText:[NSString stringWithFormat:BEAN_STATUS_TEXT, @"Connecting..."]];
-            [self.beanStatusSpinner startAnimating];
-            self.beanStatusIcon.hidden = YES;
+            // Show the connectino status.
+            [self setBeanStatusWithSpinner:@"Connecting..."];
         }
     }
 }
 
 - (void)BeanManager:(PTDBeanManager *)beanManager didConnectToBean:(PTDBean *)bean error:(NSError *)error
 {
-    [self.beanStatusLabel setText:[NSString stringWithFormat:BEAN_STATUS_TEXT, @"Connected"]];
-    [self.beanStatusSpinner stopAnimating];
-    [self.beanStatusIcon setImage:[UIImage imageNamed:ICON_CHECK]];
-    self.beanStatusIcon.hidden = NO;
-
-    // Enable controls
-    [self enableControls];
+    // Set Bean delegate to self
+    [bean setDelegate:self];
+    
+    // Show connected status
+    [self setBeanStatus:@"Connected" withIcon:ICON_CHECK];
+    
+    // Stop scanning
+    [self stopScanning];
     
     // Keep track of the connected Bean
     self.sousVideBean = bean;
@@ -121,14 +110,8 @@
 
 - (void)BeanManager:(PTDBeanManager *)beanManager didDisconnectBean:(PTDBean *)bean error:(NSError *)error
 {
-    // Disable controls
-    [self disableControls];
-    
-    // Stop sending update requests
-    [self stopUpdateRequests];
-    
-    // Throw away the connected Bean
-    self.sousVideBean = nil;
+    // When the Bean disconnects, clean up
+    [self connectionLost];
     
     // If Bluetooth is ready, start scanning again right away
     if (self.beanManager.state == BeanManagerState_PoweredOn) {
@@ -139,14 +122,41 @@
 - (void)bean:(PTDBean *)bean serialDataReceived:(NSData *)data
 {
     NSLog(@"Data received: %@", data);
+    [self enableControlsWithTemp:77 targetTemp:100 isEnabled:YES isHeating:YES];
+}
+
+- (void)setBtStatus:(NSString *)statusText withIcon:(NSString *)iconName
+{
+    [self.btStatusIcon setImage:[UIImage imageNamed:iconName]];
+    [self.btStatusLabel setText:[NSString stringWithFormat:BT_STATUS_TEXT, statusText]];
+}
+
+- (void)setBeanStatus:(NSString *)statusText withIcon:(NSString *)iconName
+{
+    [self.beanStatusLabel setText:[NSString stringWithFormat:BEAN_STATUS_TEXT, statusText]];
+    [self.beanStatusSpinner stopAnimating];
+    [self.beanStatusIcon setImage:[UIImage imageNamed:iconName]];
+    self.beanStatusIcon.hidden = NO;
+}
+
+- (void)setBeanStatusWithSpinner:(NSString *)statusText
+{
+    [self.beanStatusLabel setText:[NSString stringWithFormat:BEAN_STATUS_TEXT, statusText]];
+    [self.beanStatusSpinner startAnimating];
+    self.beanStatusIcon.hidden = YES;
 }
 
 - (void)startScanning
 {
     [self.beanManager startScanningForBeans_error:nil];
-    [self.beanStatusLabel setText:[NSString stringWithFormat:BEAN_STATUS_TEXT, @"Scanning..."]];
-    [self.beanStatusSpinner startAnimating];
-    self.beanStatusIcon.hidden = YES;
+    [self setBeanStatusWithSpinner:@"Scanning..."];
+}
+
+- (void)stopScanning
+{
+    // Clear all found Beans and stop scanning.
+    [self.beans removeAllObjects];
+    [self.beanManager stopScanningForBeans_error:nil];
 }
 
 - (void)disableControls
@@ -167,7 +177,10 @@
     [self.cookingLabel setText:@"?"];
 }
 
-- (void)enableControls
+- (void)enableControlsWithTemp:(int)temp
+                    targetTemp:(int)targetTemp
+                     isEnabled:(BOOL)enabled
+                     isHeating:(BOOL)heating
 {
     self.heatingIcon.alpha = ALPHA_OPAQUE;
     self.tempLabel.alpha = ALPHA_OPAQUE;
@@ -177,17 +190,47 @@
     [self.targetTempButtons setEnabled:YES];
     self.targetTempButtons.alpha = ALPHA_OPAQUE;
     [self.cookingSwitch setEnabled:YES];
+    
+    [self.tempLabel setText:[NSString stringWithFormat:@"%i° F", temp]];
+    [self.targetTempLabel setText:[NSString stringWithFormat:@"%i° F", targetTemp]];
+    self.cookingSwitch.on = enabled;
+    NSString *heatingImage = heating ? ICON_HEATING_LG : ICON_COOLING_LG;
+    [self.heatingIcon setImage:[UIImage imageNamed:heatingImage]];
+    [self.heatingLabel setText:heating ? @"Heating" : @"Cooling"];
+}
+
+- (void)connectionLost
+{
+    // Run this when the Bean disconnects or Bluetooth chokes.
+    
+    // Disable controls
+    [self disableControls];
+    
+    // Stop sending update requests
+    [self stopUpdateRequests];
+    
+    // Throw away the connected Bean
+    self.sousVideBean = nil;
 }
 
 - (void)requestUpdate
 {
-    NSMutableData *data = [[NSMutableData alloc] init];
-    [data appendBytes:(char[]){CMD_STATUS} length:1];
-    [self.sousVideBean sendSerialData:data];
+    // If the connected Bean is nil or not connected, stop updating
+    if (!self.sousVideBean || [self.sousVideBean state] != BeanState_ConnectedAndValidated) {
+        NSLog(@"Tried to request update while Bean was disconnected. Stopping updates.");
+        [self stopUpdateRequests];
+    } else {
+        NSMutableData *data = [[NSMutableData alloc] init];
+        [data appendBytes:(char[]){CMD_STATUS} length:1];
+        [self.sousVideBean sendSerialData:data];
+    }
 }
 
 - (void)startUpdateRequests
 {
+    // Disable any prior timers
+    [self stopUpdateRequests];
+    
     // Schedule update requests to run every 5 seconds
     self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:UPDATE_INTERVAL_SECS
                                                         target:self
