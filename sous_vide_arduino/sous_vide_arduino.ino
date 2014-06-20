@@ -17,7 +17,7 @@ DeviceAddress thermometer;
 
 void setup()
 {
-    Serial.begin(9600);
+    Serial.begin(57600);
     
     sensors.begin();
     if (!sensors.getAddress(thermometer, 0)) {
@@ -34,37 +34,59 @@ float temperature()
 
 void loop()
 {
-    // Wait for serial data
-    while (!Serial.available());
+    // Sleep if there are no incoming commands
+    if (!Serial.available()) {
+        Bean.sleep(20000);
+    }
+
+    Bean.setLed(0, 0, 255);
+
     byte cmd = Serial.read();
-    if (cmd == '0') {
+
+    if (cmd == 0x00) {
         // 0: Get status
         // Send the command to get temperatures
         sensors.requestTemperatures();
-        // Print the received temperature
-        Serial.print("Enabled: ");
-        Serial.print(enabled);
-        Serial.print(", temp F: ");
-        Serial.print(temperature());
-        Serial.print(", target F: ");
-        Serial.println(targetTempF);
-    } else if (cmd == '1') {
-        // 1: Turn on heater
+
+        // Return 0x00, current temp, target temp, 0xFF
+        Serial.write(0x00);
+        Serial.write((int)temperature());
+        Serial.write(targetTempF);
+        Serial.write(0xFF);
+
+    } else if (cmd == 0x01) {
+        // 1: Enable heater
         enabled = true;
-        Serial.println("Heater on");
-    } else if (cmd == '2') {
-        // 2: Turn off heater
+
+        // Return 0x01, 0xFF
+        Serial.write(0x01);
+        Serial.write(0xFF);
+
+    } else if (cmd == 0x02) {
+        // 2: Disable heater
         enabled = false;
-        Serial.println("Heater off");
-    } else if (cmd == '3') {
+
+        // Return 0x02, 0xFF
+        Serial.write(0x02);
+        Serial.write(0xFF);
+
+    } else if (cmd == 0x03) {
         // 3: Set target temperature
         while (!Serial.available());
         targetTempF = Serial.read();
-        Serial.print("Set temp to ");
-        Serial.println(targetTempF);
+
+        // Return 0x03, target temp, 0xFF
+        Serial.write(0x03);
+        Serial.write(targetTempF);
+        Serial.write(0xFF);
+
     } else {
+        // Flush incoming buffer
         while (Serial.available()) {
             Serial.read();
         }
     }
+
+    Bean.setLed(0, 0, 0);
+
 }
