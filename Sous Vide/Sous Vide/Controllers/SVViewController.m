@@ -98,6 +98,8 @@
         [self stopScanning];
         // When the Bean disconnects, clean up
         [self reset];
+        // Show the Bean as disconnected
+        [self setBeanStatus:@"Disconnected" withIcon:ICON_X];
     }
 }
 
