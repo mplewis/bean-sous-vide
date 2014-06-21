@@ -300,10 +300,9 @@
     [self.cookingLabel setText:@"?"];
 }
 
+// Run this when the Bean disconnects or Bluetooth chokes.
 - (void)reset
 {
-    // Run this when the Bean disconnects or Bluetooth chokes.
-    
     // Disable controls
     [self disableControls];
     
