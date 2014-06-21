@@ -57,6 +57,8 @@
 @property PTDBean *sousVideBean;
 @property NSTimer *updateTimer;
 
+@property BOOL targetTempSliding;
+
 // For parsing serial messages
 
 @property unsigned char msgType;
@@ -195,12 +197,6 @@
                               targetTemp:self.msgTargetTemp
                                isEnabled:self.msgEnabled
                                isHeating:self.msgHeating];
-        } else if (self.msgType == MSG_ENABLE) {
-            [self showEnabled:YES];
-        } else if (self.msgType == MSG_DISABLE) {
-            [self showEnabled:NO];
-        } else if (self.msgType == MSG_SET_TARGET_TEMP) {
-            [self showTargetTemp:self.msgTargetTemp];
         }
         self.msgCurrentState = ST_READY;
     }
@@ -248,11 +244,13 @@
 - (void)showTargetTemp:(int)targetTemp
 {
     [self.targetTempLabel setText:[NSString stringWithFormat:@"%i° F", targetTemp]];
+    [self.targetTempSlider setValue:targetTemp];
 }
 
 - (void)showEnabled:(BOOL)enabled
 {
     self.cookingSwitch.on = enabled;
+    [self.cookingLabel setText:enabled ? @"Yes" : @"No"];
 }
 
 - (void)showHeating:(BOOL)heating
@@ -272,14 +270,16 @@
     self.heatingLabel.alpha = ALPHA_OPAQUE;
     self.targetTempLabel.alpha = ALPHA_OPAQUE;
     self.cookingLabel.alpha = ALPHA_OPAQUE;
-    [self.targetTempButtons setEnabled:YES];
-    self.targetTempButtons.alpha = ALPHA_OPAQUE;
+    [self.targetTempSlider setEnabled:YES];
+    self.targetTempSlider.alpha = ALPHA_OPAQUE;
     [self.cookingSwitch setEnabled:YES];
     
     [self showTemp:temp];
-    [self showTargetTemp:targetTemp];
     [self showEnabled:enabled];
     [self showHeating:heating];
+    if (!self.targetTempSliding) {
+        [self showTargetTemp:targetTemp];
+    }
 }
 
 - (void)disableControls
@@ -289,8 +289,8 @@
     self.heatingLabel.alpha = ALPHA_FADED;
     self.targetTempLabel.alpha = ALPHA_FADED;
     self.cookingLabel.alpha = ALPHA_FADED;
-    [self.targetTempButtons setEnabled:NO];
-    self.targetTempButtons.alpha = ALPHA_FADED;
+    [self.targetTempSlider setEnabled:NO];
+    self.targetTempSlider.alpha = ALPHA_FADED;
     [self.cookingSwitch setEnabled:NO];
     
     [self.heatingIcon setImage:[UIImage imageNamed:ICON_QUESTION_LG]];
@@ -298,6 +298,33 @@
     [self.heatingLabel setText:@"Unknown"];
     [self.targetTempLabel setText:@"?° F"];
     [self.cookingLabel setText:@"?"];
+}
+
+- (IBAction)targetTempDown:(UISlider *)sender
+{
+    self.targetTempSliding = true;
+}
+
+// On slide
+- (IBAction)targetTempChanged:(UISlider *)sender
+{
+    [self showTargetTemp:[sender value]];
+}
+
+// On release
+- (IBAction)targetTempUp:(UISlider *)sender
+{
+    self.targetTempSliding = false;
+    [self setTargetTemp:[sender value]];
+}
+
+- (IBAction)enableSwitchChanged:(UISwitch *)sender
+{
+    if (sender.on) {
+        [self enableHeater];
+    } else {
+        [self disableHeater];
+    }
 }
 
 // Run this when the Bean disconnects or Bluetooth chokes.

@@ -61,11 +61,10 @@
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i2T-hK-n1l">
                                 <rect key="frame" x="251" y="517" width="51" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="enableSwitchChanged:" destination="vXZ-lx-hvc" eventType="valueChanged" id="Z6l-rQ-zGh"/>
+                                </connections>
                             </switch>
-                            <stepper opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="LYe-tQ-7cf">
-                                <rect key="frame" x="27" y="518" width="94" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            </stepper>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Target Temperature" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yCf-yg-ZGs">
                                 <rect key="frame" x="20" y="435" width="140" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -88,6 +87,16 @@
                                 <rect key="frame" x="22" y="76" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="106" minValue="0.0" maxValue="212" translatesAutoresizingMaskIntoConstraints="NO" id="wYG-Zm-iaH">
+                                <rect key="frame" x="18" y="517" width="144" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="targetTempChanged:" destination="vXZ-lx-hvc" eventType="valueChanged" id="v79-rB-Bc6"/>
+                                    <action selector="targetTempDown:" destination="vXZ-lx-hvc" eventType="touchDown" id="R1y-t5-gcx"/>
+                                    <action selector="targetTempUp:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="R6P-kV-APg"/>
+                                    <action selector="targetTempUp:" destination="vXZ-lx-hvc" eventType="touchUpOutside" id="YJE-xZ-NmZ"/>
+                                </connections>
+                            </slider>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -101,8 +110,8 @@
                         <outlet property="cookingSwitch" destination="i2T-hK-n1l" id="Scl-Ir-c18"/>
                         <outlet property="heatingIcon" destination="Ee9-Gw-Wju" id="UgH-Dh-FFT"/>
                         <outlet property="heatingLabel" destination="fZG-Rr-4vY" id="7rp-gN-Cvx"/>
-                        <outlet property="targetTempButtons" destination="LYe-tQ-7cf" id="8oc-9b-91M"/>
                         <outlet property="targetTempLabel" destination="xvw-xa-m9W" id="3iY-D8-mux"/>
+                        <outlet property="targetTempSlider" destination="wYG-Zm-iaH" id="Cti-1X-uMr"/>
                         <outlet property="tempLabel" destination="cwg-mr-Gbk" id="qa6-M7-eBi"/>
                     </connections>
                 </viewController>

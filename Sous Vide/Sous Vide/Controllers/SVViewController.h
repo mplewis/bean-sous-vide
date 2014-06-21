@@ -22,7 +22,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *heatingLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *targetTempLabel;
-@property (weak, nonatomic) IBOutlet UIStepper *targetTempButtons;
+@property (weak, nonatomic) IBOutlet UISlider *targetTempSlider;
 @property (weak, nonatomic) IBOutlet UILabel *cookingLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *cookingSwitch;
 
