@@ -150,8 +150,6 @@
 {
     const char *dataBytes = (const char *)[data bytes];
     unsigned char dataByte = dataBytes[0];
-    NSLog(@"Pre-state: %i", self.msgCurrentState);
-    NSLog(@"Data received: %@", data);
 
     if (self.msgCurrentState == ST_READY) {
         // Read message type and set next state accordingly
@@ -203,9 +201,6 @@
         }
         self.msgCurrentState = ST_READY;
     }
-    
-    NSLog(@"Post-state: %i", self.msgCurrentState);
-    NSLog(@"msgCurrentState: %i, msgType: %i, dataByte: %i", self.msgCurrentState, self.msgType, dataByte);
 }
 
 - (void)setBtStatus:(NSString *)statusText withIcon:(NSString *)iconName
