@@ -314,17 +314,36 @@
     self.msgCurrentState = ST_READY;
 }
 
-- (void)requestUpdate
+- (void)sendData:(char[])cmdBytes length:(int)length
 {
     // If the connected Bean is nil or not connected, stop updating
     if (!self.sousVideBean || [self.sousVideBean state] != BeanState_ConnectedAndValidated) {
-        NSLog(@"Tried to request update while Bean was disconnected. Stopping updates.");
-        [self stopUpdateRequests];
+        NSLog(@"Tried to send data while Bean was disconnected. Ignoring.");
     } else {
         NSMutableData *data = [[NSMutableData alloc] init];
-        [data appendBytes:(char[]){CMD_STATUS} length:1];
+        [data appendBytes:cmdBytes length:length];
         [self.sousVideBean sendSerialData:data];
     }
+}
+
+- (void)requestUpdate
+{
+    [self sendData:(char[]){CMD_STATUS} length:1];
+}
+
+- (void)enableHeater
+{
+    [self sendData:(char[]){CMD_ENABLE} length:1];
+}
+
+- (void)disableHeater
+{
+    [self sendData:(char[]){CMD_DISABLE} length:1];
+}
+
+- (void)setTargetTemp:(unsigned char)targetTemp
+{
+    [self sendData:(char[]){CMD_SETTARGET, targetTemp} length:2];
 }
 
 - (void)startUpdateRequests
