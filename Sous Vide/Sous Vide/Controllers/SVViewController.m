@@ -42,6 +42,7 @@
 #define ST_STATUS_CURRENT_TEMP 0x01 // Got message type STATUS (0x00); waiting for current temp
 #define ST_STATUS_TARGET_TEMP 0x02 // Got current temp; waiting for target temp
 #define ST_STATUS_ENABLED 0x03 // Got target temp; waiting for ENABLED byte
+#define ST_STATUS_HEATING 0x05 // Got ENABLED byte; waiting for HEATING byte
 
 #define ST_SET_TARGET_TEMP 0x04 // Got message type SET_TARGET_TEMP (0x03); waiting for target temp
 
@@ -63,6 +64,7 @@
 @property unsigned char msgCurrentTemp;
 @property unsigned char msgTargetTemp;
 @property BOOL msgEnabled;
+@property BOOL msgHeating;
 
 @end
 
@@ -176,6 +178,10 @@
         
     } else if (self.msgCurrentState == ST_STATUS_ENABLED) {
         self.msgEnabled = dataByte;
+        self.msgCurrentState = ST_STATUS_HEATING;
+        
+    } else if (self.msgCurrentState == ST_STATUS_HEATING) {
+        self.msgHeating = dataByte;
         self.msgCurrentState = ST_DONE;
         
     } else if (self.msgCurrentState == ST_SET_TARGET_TEMP) {
@@ -188,7 +194,7 @@
             [self enableControlsWithTemp:self.msgCurrentTemp
                               targetTemp:self.msgTargetTemp
                                isEnabled:self.msgEnabled
-                               isHeating:NO];
+                               isHeating:self.msgHeating];
         } else if (self.msgType == MSG_ENABLE) {
             [self showEnabled:YES];
         } else if (self.msgType == MSG_DISABLE) {
