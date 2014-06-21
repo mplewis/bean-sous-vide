@@ -141,11 +141,6 @@
 {
     // When the Bean disconnects, clean up
     [self reset];
-    
-    // If Bluetooth is ready, start scanning again right away
-    if (self.beanManager.state == BeanManagerState_PoweredOn) {
-        [self startScanning];
-    }
 }
 
 - (void)bean:(PTDBean *)bean serialDataReceived:(NSData *)data
@@ -314,6 +309,11 @@
 
     // Reset the state machine
     self.msgCurrentState = ST_READY;
+    
+    // If Bluetooth is ready, start scanning again right away
+    if (self.beanManager.state == BeanManagerState_PoweredOn) {
+        [self startScanning];
+    }
 }
 
 - (void)sendData:(char[])cmdBytes length:(int)length
