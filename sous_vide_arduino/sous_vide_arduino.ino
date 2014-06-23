@@ -50,11 +50,11 @@ void loop()
         Bean.setLed(0, 255, 0);
         
         // Turn heater on or off based on current temperature
-        if (currentTempF <= targetTempF + 1) {
-            // Turn on heater when currentTempF is less than 2 degrees above targetTempF
+        if (currentTempF < targetTempF) {
+            // Turn on heater when currentTempF is less than targetTempF
             heating = 1;    
         } else {
-            // Turn off heater when currentTempF is 2+ degrees above targetTempF
+            // Turn off heater when currentTempF is equal to or greater than targetTempF
             heating = 0;
         }
 
