@@ -6,10 +6,13 @@
 //  Copyright (c) 2014 Kestrel Development. All rights reserved.
 //
 
+// Which Bean to connect to (BLE local name)
 #define SOUS_VIDE_BEAN_NAME @"SousVide"
 
+// How often the app should ask the Bean for updates
 #define UPDATE_INTERVAL_SECS 5.0
 
+// Image resource locations
 #define ICON_CHECK @"checkmark.png"
 #define ICON_X @"cancel.png"
 #define ICON_QUESTION @"help.png"
@@ -17,61 +20,60 @@
 #define ICON_HEATING_LG @"hot.png"
 #define ICON_COOLING_LG @"cool.png"
 
+// Text templates for the top two status lines
 #define BT_STATUS_TEXT @"Bluetooth: %@"
 #define BEAN_STATUS_TEXT @"Bean: %@"
 
+// Alpha values for fading disabled interface elements
 #define ALPHA_FADED 0.3
 #define ALPHA_OPAQUE 1.0
 
+// Command bytes for telling the Bean what to do
 #define CMD_STATUS 0x00
 #define CMD_ENABLE 0x01
 #define CMD_DISABLE 0x02
 #define CMD_SETTARGET 0x03
 
-// MSG_: Bytes indicating message types for Bean messages
-
+// Bytes indicating message types for Bean messages
 #define MSG_STATUS 0x00
 #define MSG_ENABLE 0x01
 #define MSG_DISABLE 0x02
 #define MSG_SET_TARGET_TEMP 0x03
 
-// ST_: State machine states for parsing Bean messages
-
-#define ST_READY 0x00 // Waiting for message type byte
-
+// State machine states for parsing Bean messages
+#define ST_READY 0x00               // Waiting for message type byte
 #define ST_STATUS_CURRENT_TEMP 0x01 // Got message type STATUS (0x00); waiting for current temp
-#define ST_STATUS_TARGET_TEMP 0x02 // Got current temp; waiting for target temp
-#define ST_STATUS_ENABLED 0x03 // Got target temp; waiting for ENABLED byte
-#define ST_STATUS_HEATING 0x05 // Got ENABLED byte; waiting for HEATING byte
-
-#define ST_SET_TARGET_TEMP 0x04 // Got message type SET_TARGET_TEMP (0x03); waiting for target temp
-
-#define ST_DONE 0xFF // Got expected message bytes; waiting for terminator (0xFF)
+#define ST_STATUS_TARGET_TEMP 0x02  // Got current temp; waiting for target temp
+#define ST_STATUS_ENABLED 0x03      // Got target temp; waiting for ENABLED byte
+#define ST_STATUS_HEATING 0x05      // Got ENABLED byte; waiting for HEATING byte
+#define ST_SET_TARGET_TEMP 0x04     // Got message type SET_TARGET_TEMP (0x03); waiting for target temp
+#define ST_DONE 0xFF                // Got expected message bytes; waiting for terminator (0xFF)
 
 #import "SVViewController.h"
 
 @interface SVViewController () <PTDBeanManagerDelegate, PTDBeanDelegate>
 
-@property PTDBeanManager *beanManager;
-@property NSMutableDictionary *beans;
-@property PTDBean *sousVideBean;
-@property NSTimer *updateTimer;
+@property PTDBeanManager *beanManager;  // Searches for Beans and manages Bluetooth connection
+@property NSMutableDictionary *beans;   // A list of all found Beans, indexed by UUID
+@property PTDBean *sousVideBean;        // The connected Bean, specified by SOUS_VIDE_BEAN_NAME
+@property NSTimer *updateTimer;         // Used for asking the Bean for a status update every x seconds
 
-@property BOOL targetTempSliding;
+@property BOOL targetTempSliding;       // Used to keep the Bean from getting updates until the
+                                        // user's thumb is off the slider
 
-// For parsing serial messages
-
-@property unsigned char msgType;
-@property unsigned char msgCurrentState;
-@property unsigned char msgCurrentTemp;
-@property unsigned char msgTargetTemp;
-@property BOOL msgEnabled;
-@property BOOL msgHeating;
+// These variables are used to store parsed data from serial messages
+@property unsigned char msgType;            // The last message type parsed (STATUS, ENABLE, DISABLE, SETTARGET)
+@property unsigned char msgCurrentState;    // The current state of the parser state machine
+@property unsigned char msgCurrentTemp;     // Storage for the "current cooker temperature" variable
+@property unsigned char msgTargetTemp;      // Storage for the "target cooker temperature" variable
+@property BOOL msgEnabled;                  // Storage for the "is the cooker enabled right now?" boolean
+@property BOOL msgHeating;                  // Storage for the "is the cooker heating right now?" boolean
 
 @end
 
 @implementation SVViewController
 
+// Called on load of the View.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -83,6 +85,7 @@
     [self reset];
 }
 
+// Called when something happens to Bluetooth (turns on, turns off, etc).
 - (void)beanManagerDidUpdateState:(PTDBeanManager *)beanManager
 {
     // Set Bluetooth status label and icon for the current Bluetooth state.
@@ -107,6 +110,7 @@
     }
 }
 
+// Called on discovery of any Bean during scanning.
 - (void)BeanManager:(PTDBeanManager *)beanManager didDiscoverBean:(PTDBean *)bean error:(NSError *)error
 {
     NSUUID *key = bean.identifier;
@@ -117,12 +121,13 @@
         if ([bean.name isEqualToString:SOUS_VIDE_BEAN_NAME]) {
             // Connect to the Sous Vide Bean.
             [self.beanManager connectToBean:bean error:nil];
-            // Show the connectino status.
+            // Show the connection status.
             [self setBeanStatusWithSpinner:@"Connecting..."];
         }
     }
 }
 
+// Called when the sous vide Bean is connected.
 - (void)BeanManager:(PTDBeanManager *)beanManager didConnectToBean:(PTDBean *)bean error:(NSError *)error
 {
     // Set Bean delegate to self
@@ -141,12 +146,15 @@
     [self startUpdateRequests];
 }
 
+// Called when the sous vide Bean disconnects.
 - (void)BeanManager:(PTDBeanManager *)beanManager didDisconnectBean:(PTDBean *)bean error:(NSError *)error
 {
     // When the Bean disconnects, clean up
     [self reset];
 }
 
+// Called when serial data is received from the connected Bean.
+// This is the state machine that parses incoming serial messages.
 - (void)bean:(PTDBean *)bean serialDataReceived:(NSData *)data
 {
     const char *dataBytes = (const char *)[data bytes];
@@ -202,12 +210,14 @@
     }
 }
 
+// Set the Bluetooth status text/icon.
 - (void)setBtStatus:(NSString *)statusText withIcon:(NSString *)iconName
 {
     [self.btStatusIcon setImage:[UIImage imageNamed:iconName]];
     [self.btStatusLabel setText:[NSString stringWithFormat:BT_STATUS_TEXT, statusText]];
 }
 
+// Set the Bean status text/icon.
 - (void)setBeanStatus:(NSString *)statusText withIcon:(NSString *)iconName
 {
     [self.beanStatusLabel setText:[NSString stringWithFormat:BEAN_STATUS_TEXT, statusText]];
@@ -216,6 +226,7 @@
     self.beanStatusIcon.hidden = NO;
 }
 
+// Set the Bean status text and set the icon to an activity spinner.
 - (void)setBeanStatusWithSpinner:(NSString *)statusText
 {
     [self.beanStatusLabel setText:[NSString stringWithFormat:BEAN_STATUS_TEXT, statusText]];
@@ -223,12 +234,14 @@
     self.beanStatusIcon.hidden = YES;
 }
 
+// Start scanning for Beans.
 - (void)startScanning
 {
     [self.beanManager startScanningForBeans_error:nil];
     [self setBeanStatusWithSpinner:@"Scanning..."];
 }
 
+// Stop scanning for Beans.
 - (void)stopScanning
 {
     // Clear all found Beans and stop scanning.
@@ -236,23 +249,27 @@
     [self.beanManager stopScanningForBeans_error:nil];
 }
 
+// Display the current temperature of the cooker.
 - (void)showTemp:(int)temp
 {
     [self.tempLabel setText:[NSString stringWithFormat:@"%i° F", temp]];
 }
 
+// Display the target temperature.
 - (void)showTargetTemp:(int)targetTemp
 {
     [self.targetTempLabel setText:[NSString stringWithFormat:@"%i° F", targetTemp]];
     [self.targetTempSlider setValue:targetTemp];
 }
 
+// Display the current cooker enable status.
 - (void)showEnabled:(BOOL)enabled
 {
     self.cookingSwitch.on = enabled;
     [self.cookingLabel setText:enabled ? @"Yes" : @"No"];
 }
 
+// Display the current cooker heating/cooling status.
 - (void)showHeating:(BOOL)heating
 {
     NSString *heatingImage = heating ? ICON_HEATING_LG : ICON_COOLING_LG;
@@ -260,6 +277,9 @@
     [self.heatingLabel setText:heating ? @"Heating" : @"Cooling"];
 }
 
+// Enable controls with latest status data. We don't want to enable the controls
+// and un-dim the display with stale data, so we have to pass in fresh data
+// (temp, enabled, etc.) when we call this method.
 - (void)enableControlsWithTemp:(int)temp
                     targetTemp:(int)targetTemp
                      isEnabled:(BOOL)enabled
@@ -282,6 +302,7 @@
     }
 }
 
+// Disable controls and dim the display.
 - (void)disableControls
 {
     self.heatingIcon.alpha = ALPHA_FADED;
@@ -300,24 +321,31 @@
     [self.cookingLabel setText:@"?"];
 }
 
+// targetTempDown, targetTempChanged, targetTempUp keep the slider from
+// spamming the Bean with serial data. Sending lots of packets very quickly
+// can cause the Bean to lose connection with the iOS device, so we send
+// packets only when the user releases the slider.
+
+// On slider touch
 - (IBAction)targetTempDown:(UISlider *)sender
 {
     self.targetTempSliding = true;
 }
 
-// On slide
+// On slider slide
 - (IBAction)targetTempChanged:(UISlider *)sender
 {
     [self showTargetTemp:[sender value]];
 }
 
-// On release
+// On slider release
 - (IBAction)targetTempUp:(UISlider *)sender
 {
     self.targetTempSliding = false;
     [self setTargetTemp:[sender value]];
 }
 
+// Handle changes in the Cooking Enable switch.
 - (IBAction)enableSwitchChanged:(UISwitch *)sender
 {
     if (sender.on) {
@@ -348,6 +376,7 @@
     }
 }
 
+// Helper function. Send a char array of bytes with specified length to the Bean.
 - (void)sendData:(char[])cmdBytes length:(int)length
 {
     // If the connected Bean is nil or not connected, stop updating
@@ -360,26 +389,32 @@
     }
 }
 
+// Ask the Bean for a status update. This happens asynchronously, so the iOS
+// device will get results and handle them in the bean:serialDataReceived method.
 - (void)requestUpdate
 {
     [self sendData:(char[]){CMD_STATUS} length:1];
 }
 
+// Enable heating.
 - (void)enableHeater
 {
     [self sendData:(char[]){CMD_ENABLE} length:1];
 }
 
+// Disable heating. The Bean will not turn on the heater pin even if the temperature is low.
 - (void)disableHeater
 {
     [self sendData:(char[]){CMD_DISABLE} length:1];
 }
 
+// Set the Bean target temperature.
 - (void)setTargetTemp:(unsigned char)targetTemp
 {
     [self sendData:(char[]){CMD_SETTARGET, targetTemp} length:2];
 }
 
+// Start asking the Bean for status updates every 5 seconds.
 - (void)startUpdateRequests
 {
     // Disable any prior timers
@@ -396,6 +431,7 @@
     [self requestUpdate];
 }
 
+// Cancel the update timer and stop asking the Bean for updates.
 - (void)stopUpdateRequests
 {
     if (self.updateTimer) {
