@@ -65,6 +65,7 @@ void loop()
 
         digitalWrite(HEATER_PIN, heating);
 
+        // Turn off LED and sleep until the next sample period
         Bean.setLed(0, 0, 0);
         Bean.sleep(CONTROL_INTERVAL);
 
