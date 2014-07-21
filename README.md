@@ -22,7 +22,7 @@ Once you start cooking your food sous-vide, you'll never go back—everything co
 
 A [LightBlue Bean](http://punchthrough.com/bean/), of course! This is the bit that regulates the temperature and talks to your phone.
 
-![LightBlue Bean in box](http://punchthrough.com/images/press/bean/original/open-bean-box.jpg)
+[![LightBlue Bean in box](http://punchthrough.com/images/press/bean/original/open-bean-box.jpg)](http://punchthrough.com/bean/)
 
 Commercial sous-vide solutions for home chefs (such as the [Sansaire](http://sansaire.com/)) usually include the following:
 
