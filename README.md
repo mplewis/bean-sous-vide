@@ -22,7 +22,7 @@ Once you start cooking your food sous-vide, you'll never go back—everything co
 
 A [LightBlue Bean](http://punchthrough.com/bean/), of course! This is the bit that regulates the temperature and talks to your phone.
 
-![](http://punchthrough.com/images/press/bean/original/open-bean-box.jpg =300x)
+![LightBlue Bean in box](http://punchthrough.com/images/press/bean/original/open-bean-box.jpg)
 
 Commercial sous-vide solutions for home chefs (such as the [Sansaire](http://sansaire.com/)) usually include the following:
 
@@ -34,13 +34,13 @@ Instead of a heating coil, this DIY sous-vide machine uses a slow cooker (crock 
 
 We picked a [Hamilton Beach 8-quart slow cooker from Amazon](http://www.amazon.com/Hamilton-Beach-33182A-Cooker-8-Quart/dp/B00EZI26C8/ref=sr_1_1?s=kitchen&ie=UTF8&qid=1403562458&sr=1-1&keywords=8+quart+slow+cooker). Whatever cooker you use, make sure it's an **analog control mechanism**—no fancy digital temperature regulators or timers. The Bean is only able to turn the cooker on and off with a relay, and power-cycling a digital cooker will most likely cause it to stop cooking until it's set up again.
 
-[![Hamilton Beach 8-quart slow cooker from Amazon](http://punchthrough.com/files/external-images/sous-vide/slow-cooker.jpg =300x)](http://www.amazon.com/Hamilton-Beach-33182A-Cooker-8-Quart/dp/B00EZI26C8/)
+[![Hamilton Beach 8-quart slow cooker from Amazon](http://punchthrough.com/files/external-images/sous-vide/slow-cooker.jpg)](http://www.amazon.com/Hamilton-Beach-33182A-Cooker-8-Quart/dp/B00EZI26C8/)
 
 *Above: Hamilton Beach 8-quart slow cooker*
 
 To turn the slow cooker on and off and keep the water at the desired temperature, we bought an AC relay device called the [PowerSwitch Tail II](https://www.sparkfun.com/products/10747) from Sparkfun. We selected the PowerSwitch Tail II because it let us use the Bean to control AC power in a safe way. This relay is fully isolated and allows us to use low-voltage, low-current signals to turn the slow cooker on and off.
 
-[![PowerSwitch Tail II from Sparkfun](http://punchthrough.com/files/external-images/sous-vide/powerswitch-tail-ii.jpg =300x)](https://www.sparkfun.com/products/10747)
+[![PowerSwitch Tail II from Sparkfun](http://punchthrough.com/files/external-images/sous-vide/powerswitch-tail-ii.jpg)](https://www.sparkfun.com/products/10747)
 
 *Above: PowerSwitch Tail II photo by Sparkfun, licensed under [CC BY-NC-SA 3.0](http://creativecommons.org/licenses/by-nc-sa/3.0/)*
 
@@ -48,7 +48,7 @@ To measure the temperature of the water, we ordered a [DS18B20 temperature senso
 
 This sensor relies on a pullup resistor to enable communication via the 1-Wire protocol. We used a 10k resistor, but most large resistors (>1kΩ) will work.
 
-[![DS18B20 from Sparkfun](http://punchthrough.com/files/external-images/sous-vide/ds18b20.jpg =300x)](https://www.sparkfun.com/products/11050)
+[![DS18B20 from Sparkfun](http://punchthrough.com/files/external-images/sous-vide/ds18b20.jpg)](https://www.sparkfun.com/products/11050)
 
 *Above: DS18B20 photo by Sparkfun, licensed under [CC BY-NC-SA 3.0](http://creativecommons.org/licenses/by-nc-sa/3.0/)*
 
